@@ -102,6 +102,7 @@ public class GameController implements Initializable {
     }
 
     public void ShurikenAndCherryGenerate(Rectangle p){
+        cherry.setLayoutX(5000);
         Random random = new Random();
         Random r1 = new Random();
         int r = r1.nextInt();
@@ -112,20 +113,24 @@ public class GameController implements Initializable {
             ShurikenImage.setX(p.getLayoutX()+p.getWidth()/2 + 12.5);
             ShurikenImage.setRotate(0);
         }
-        cherry.setImage(c1);
-        double lowerBound = 30;
-        double upperBound = Math.max(0, p.getLayoutX() - 100);
-        int randomPosition = random.nextInt((int) (upperBound - lowerBound)) + (int) lowerBound;
-        ninjaController.cherryposition = randomPosition;
-        cherry.setX(randomPosition);
-        ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(0.2), cherry);
-        scaleTransition.setFromX(0);
-        scaleTransition.setFromY(0);
-        scaleTransition.setToX(1);
-        scaleTransition.setToY(1);
-        scaleTransition.setCycleCount(1);
-        scaleTransition.setAutoReverse(false);
-        scaleTransition.play();
+        if (r_ % 2 == 0){
+            cherry.setLayoutX(70);
+            System.out.println("Cherry Set");
+            cherry.setImage(c1);
+            double lowerBound = 30;
+            double upperBound = Math.max(0, p.getLayoutX() - 100);
+            int randomPosition = random.nextInt((int) (upperBound - lowerBound)) + (int) lowerBound;
+            ninjaController.cherryposition = randomPosition;
+            cherry.setX(randomPosition);
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.seconds(0.2), cherry);
+            scaleTransition.setFromX(0);
+            scaleTransition.setFromY(0);
+            scaleTransition.setToX(1);
+            scaleTransition.setToY(1);
+            scaleTransition.setCycleCount(1);
+            scaleTransition.setAutoReverse(false);
+            scaleTransition.play();
+        }
     }
     private void setDefaultValues(Rectangle stick,ImageView ninja,Rectangle p,ImageView shuriken){
         Audio basic=Audio.getaudio("basic.wav");
@@ -149,7 +154,6 @@ public class GameController implements Initializable {
         ninja.setRotate(0);
         shuriken.setLayoutX(-26);
         shuriken.setX(0);
-        cherry.setLayoutX(70);
         ShurikenAndCherryGenerate(p);
     }
     public void revivepressed1(javafx.scene.input.MouseEvent e){
@@ -181,6 +185,7 @@ public class GameController implements Initializable {
         ninjaController.revivebool = false;
     }
     public void reviveninja1(){
+        System.out.println("Revived");
         FadeTransition fadein = new FadeTransition(Duration.seconds(1.3), ninja);
         fadein.setFromValue(0);
         fadein.setToValue(1);
@@ -227,6 +232,7 @@ public class GameController implements Initializable {
 
     }
     public void reviveninja2(){
+        System.out.println("Revived");
         FadeTransition fadein = new FadeTransition(Duration.seconds(1.3), ninja);
         fadein.setFromValue(0);
         fadein.setToValue(1);
@@ -269,9 +275,7 @@ public class GameController implements Initializable {
         cherrycounter.setText(String.valueOf(cherry_counter));
         GameLoop = new Timeline(new KeyFrame(Duration.seconds(0.005), event -> {
             if (stickController.StopRotation && ninjaController.alive) {
-                if ((p2.getLayoutX() + p2.getWidth()/2 >= 300 && p2.getWidth() <= 125) || (p2.getWidth()<=75 && p2.getLayoutX() >= 200)){
-                    s.rotate(ShurikenImage);
-                }
+                s.rotate(ShurikenImage);
                 if (bool) {
                     Audio.revive.stop();
                     ninjaController.didNinjaLand(stick1, p2);
@@ -353,9 +357,7 @@ public class GameController implements Initializable {
 
         GameLoop2 = new Timeline(new KeyFrame(Duration.seconds(0.005), event -> {
             if (stickController.StopRotation && ninjaController.alive) {
-                if ((p1.getLayoutX() + p1.getWidth()/2 >= 300 && p1.getWidth() <= 125) || (p1.getWidth()<=75 && p1.getLayoutX() >= 200)){
-                    s.rotate(ShurikenImage);
-                }
+                s.rotate(ShurikenImage);
                 if (bool2) {
                     Audio.revive.stop();
                     ninjaController.didNinjaLand(stick2, p1);
@@ -596,5 +598,4 @@ public class GameController implements Initializable {
         moveObjectsBack_2.play();
     }
 }
-
 
